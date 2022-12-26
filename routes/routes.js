@@ -32,3 +32,5 @@ Router.route('/score/:team').get();//team
 
 // getting all requests of a user
 Router.route('/request/:id').get();
+
+module.exports = Router;
