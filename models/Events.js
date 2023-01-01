@@ -22,6 +22,36 @@ const EventSchema = new mongoose.Schema({
       message: "Event name is not valid",
     },
   },
+  Description: {
+    type: String,
+  },
+  rules: {
+    type: String,
+  },
+  rewards: {
+    type: String,
+  },
+  timeline: [
+    {
+      Date: {
+        type: String,
+        required: true,
+      },
+      slot: {
+        type: String,
+        required: true,
+      }
+      ,
+      title: {
+        type: String,
+        required: true,
+      },
+      is_completed: {
+        type: Boolean,
+        default: false,
+      },
+    }
+  ],
   no_of_participants: {
     type: Number,
     required: true,
@@ -33,7 +63,7 @@ const EventSchema = new mongoose.Schema({
   },
   Participants: [
     {
-      participants: {
+      participant: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
