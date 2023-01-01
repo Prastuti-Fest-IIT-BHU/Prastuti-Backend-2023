@@ -31,6 +31,22 @@ const UserSchema = new mongoose.Schema({
      Phone : {
         type : Number
      },
+     Gender:{
+      type: String,
+      enum: ['Male', 'Female'],
+      required: true
+     },
+     Interests: {
+      type:[String]
+     },
+     SocialMedia_Links: {
+      type:[String]
+     },
+     App_id: {
+      type:String,
+      unique : true,
+      required: true
+     },
      Teams : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'team'
