@@ -27,8 +27,10 @@ Router.route('/register/:EventName/:id').post(register_solo);//individual
 Router.route('/register/:EventName/:team').post(register_team);//team
 
 // getting all events and particular event
+
 Router.route('/events').get(getAllEvents);//all events
 Router.route('/events/:id').get(getEvent);//particular event
+
 
 // getting leaderboard of particular event
 Router.route('/leaderboard/:event').get(getLeaderboard);
