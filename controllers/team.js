@@ -22,7 +22,7 @@ const createTeam = async (req, res) => {
             })
             return;
         }
-        const curSlug = slugify(req.body.team_name, {
+        const curSlug = slugify(req.body.Team_Name, {
             lower: true
         });
         const team = await TeamModel.findOne({slug: curSlug});
@@ -33,10 +33,10 @@ const createTeam = async (req, res) => {
             return;
         }
         const newTeam = await TeamModel.create({
-            Team_Name: req.body.team_name,
+            Team_Name: req.body.Team_Name,
             Events_Participated: [],
             Members: [req.body.userID],
-            Member_Count: 1,
+            Member_Count: req.body.Member_Count,
             Pending_Requests: []
         });
         user.Teams.push(newTeam._id);
@@ -55,9 +55,9 @@ const createTeam = async (req, res) => {
         })
     }
     catch(err) {
-        console.log(err);
+        console.log(err.message);
         res.json({
-            message: 'Error'
+            message:err.message 
         })
     }
 }
