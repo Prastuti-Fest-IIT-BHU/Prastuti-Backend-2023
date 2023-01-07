@@ -28,6 +28,7 @@ const loginUser = async (req, res) => {
         Name: payload.name,
         email_id: payload.email,
         Profile_Photo: payload.picture,
+        App_id: "",
         Teams: [],
         Pending_Requests: [],
         Events_Participated: [],
