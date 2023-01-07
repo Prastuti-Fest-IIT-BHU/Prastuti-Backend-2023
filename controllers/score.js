@@ -101,6 +101,6 @@ const score_team = async (req, res) => {
 };
 
 module.exports = {
-  score_solo,
+  solo_score,
   score_team,
 };

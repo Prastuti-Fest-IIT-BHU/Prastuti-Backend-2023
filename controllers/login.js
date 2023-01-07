@@ -32,7 +32,7 @@ const loginUser = async (req, res) => {
         Pending_Requests: [],
         Events_Participated: [],
       };
-      user = await Users.create(newUser);
+      user = await User.create(newUser);
     } else user = curUser;
   }
 

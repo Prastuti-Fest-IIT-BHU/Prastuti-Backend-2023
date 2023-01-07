@@ -3,8 +3,14 @@ const EventModel = require('../models/Events');
 
 // getting info about all users registered
 const getAllUsers = async (req, res) => {
-    const allusers = await UserModel.find({});
+   try {
+    const allusers = await UserModel.find();
     res.status(200).json(allusers);
+    
+   } catch (error) {
+    res.status(404).json({message:error.message});
+    
+   } 
 }
 
 // getting info about email ids of all registered users

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const teamModel = require("./Teams");
 const eventModel = require("./Events");
-const requestModel = require("./Requests");
+const requestModel = require("./Request");
 
 const UserSchema = new mongoose.Schema({
      Name : {
@@ -78,6 +78,7 @@ UserSchema.pre(/^find/,function(next){
         path : 'Events_Participated',
         select : '-Participants -Teams -Team_Event -__v'
     })
+    next();
 });
 
 const User = mongoose.model('user',UserSchema);

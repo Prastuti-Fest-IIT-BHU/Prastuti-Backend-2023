@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const slugify = require("slugify");
 
 const userModel = require("./Users");
-const requestModel = require("./Requests");
+const requestModel = require("./Request");
 const eventModel = require("./Events");
 
 const TeamSchema = new mongoose.Schema({
