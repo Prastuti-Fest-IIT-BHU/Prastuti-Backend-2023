@@ -18,7 +18,7 @@ const loginUser = async (req, res) => {
     });
 
     const payload = ticket.getPayload();
-    const curUser = await Users.findOne({
+    const curUser = await User.findOne({
       email_id: payload.email,
     });
 
@@ -28,7 +28,7 @@ const loginUser = async (req, res) => {
         Name: payload.name,
         email_id: payload.email,
         Profile_Photo: payload.picture,
-        App_id: "",
+        App_id: " ",
         Teams: [],
         Pending_Requests: [],
         Events_Participated: [],
