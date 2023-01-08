@@ -18,8 +18,6 @@ const loginUser = async (req, res) =>{
       })
       const payload = ticket.getPayload();
       console.log(payload);
-      
-
       const curUser = await Users.findOne({
           email_id: payload.email
       })
