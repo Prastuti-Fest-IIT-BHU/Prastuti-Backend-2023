@@ -30,7 +30,7 @@ const loginUser = async (req, res) =>{
               email_id: payload.email,
               Profile_Photo: payload.picture,
               Teams: [],
-              App_id:tokenId,
+              App_id:" ",
               Pending_Requests: [],
               Events_Participated: []
           }
