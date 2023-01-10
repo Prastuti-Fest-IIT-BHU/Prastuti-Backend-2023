@@ -32,7 +32,8 @@ const loginUser = async (req, res) =>{
               Teams: [],
               App_id:tokenId,
               Pending_Requests: [],
-              Events_Participated: []
+              Events_Participated: [],
+              is_form_filled:false
           }
           user = await Users.create(newUser);
       }
