@@ -3,54 +3,56 @@ const Events = require("../models/Events");
 const Team = require("../models/Teams");
 
 // solo score on route '/score'
-const solo_score = (req, res) => {
-  const { score } = req.body;
-  const event = Events.findOne({ Name: req.body.event_name });
-  const user = Users.findOne({ email_id: req.body.user_mail });
+const solo_score = async(req, res) => {
+  try {const { score } = req.body;
+  const event = await Events.findOne({ Name: req.body.event_name });
+  const user = await Users.findOne({ email_id: req.body.user_mail });
+
 
   //checking existance of user and event in application's database
-  if (!event || !user) {
+  if(!event || !user) {
     res.status(404).json({
-      status: "Fail",
-      message: "User or Event not found",
-    });
+        status: 'Fail',
+        message: 'User or Event not found'
+    })
     return;
-  }
+}
 
-  if (event.team_event) {
+  if(event.team_event) {
     res.json({
-      status: "Fail",
-      message: "This is a team event",
-    });
+        status: 'Fail',
+        message: 'This is a team event'
+    })
     return;
-  }
+}
 
   //checking if user has registered for event or not
-  const check = event.Participants.find((x) =>
-    x.participant._id.equals(user._id)
-  );
-  if (!check) {
-    res.json({
-      status: "Fail",
-      message: "User not registered for this event",
-    });
-    return;
-  }
+  const check = event.Participants.find(x => x.participant._id.equals(user._id));
+    if(!check) {
+        res.json({
+            status: 'Fail',
+            message: 'User not registered for this event'
+        })
+        return;
+    }
 
   //Update total score in user
   user.Total_Score += score;
-  user.save();
+    user.save();
 
   //Update score in event's model
-  let participant_present = event.Participants.find((x) =>
-    x.participant._id.equals(user._id)
-  );
-  participant_present.Score += score;
-  event.save();
+  let participant_present = event.Participants.find(x => x.participant._id.equals(user._id))
+    participant_present.Score += score;
+    event.save();
 
-  res.json({
-    message: "Score updated",
-  });
+    res.json({
+        message: 'Score updated'
+    })
+    
+  } catch (error) {
+    console.log(error);
+  }
+  
 };
 
 
@@ -84,6 +86,7 @@ const score_team = async (req, res) => {
     });
     return;
   }
+ 
 
   team.Members.forEach(async (member) => {
     const curUser = await Users.findById(member._id);

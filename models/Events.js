@@ -39,7 +39,7 @@ const EventSchema = new mongoose.Schema({
       },
       slot: {
         type: String,
-        required: true,
+        required: false,
       }
       ,
       title: {
