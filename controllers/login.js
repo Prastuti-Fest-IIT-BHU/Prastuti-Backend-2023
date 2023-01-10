@@ -9,6 +9,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const loginUser = async (req, res) =>{
   const tokenId = req.body.tokenId;
+  console.log(tokenId);
   let isNew = false; 
   let user = {};
   async function verify() {
@@ -29,6 +30,7 @@ const loginUser = async (req, res) =>{
               email_id: payload.email,
               Profile_Photo: payload.picture,
               Teams: [],
+              App_id:tokenId,
               Pending_Requests: [],
               Events_Participated: []
           }
@@ -39,7 +41,7 @@ const loginUser = async (req, res) =>{
 
 
   
-  verify().then(() => {
+  verify().then((data) => {
     res.json({
         message: 'Success',
         user,
@@ -48,7 +50,7 @@ const loginUser = async (req, res) =>{
 }).catch(err => 
   {  console.log("error bro");
     res.json({
-    message: 'Fail bro',
+    message: err.meassage,
     error: err
 })}) 
 }
