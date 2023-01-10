@@ -23,8 +23,8 @@ Router.route('/teams').post(createTeam);//post
 Router.route('/teams/:id').get(getTeam);//get
 
 // registering for event
-Router.route('/register/:EventName/:id').post(register_solo);//individual
-Router.route('/register/:EventName/:team').post(register_team);//team
+Router.route('/soloRegistration').post(register_solo);//individual
+Router.route('/teamRegistration').post(register_team);//team
 
 // getting all events and particular event
 
