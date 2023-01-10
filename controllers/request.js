@@ -9,12 +9,12 @@ const getRequest = async (req, res) => {
   });
 };
 
-const deleteRequest = async (req, res) => {
+const deleteRequest = async (req, res) =>{
   await Requests.findByIdAndDelete(req.body.requestId);
   res.status(200).json({
-    message: "Request Deleted",
-  });
-};
+      message: 'Request Deleted'
+  })
+}
 
 const sendRequest = async (req, res) => {
   try {
@@ -28,8 +28,8 @@ const sendRequest = async (req, res) => {
     }
 
     const request = await Requests.findOne({
-      For_Team: req.body.team_id,
-      Req_to: user._id,
+      team: req.body.team_id,
+      requested_to: user._id,
     });
     if (request) {
       res.json({
@@ -47,16 +47,19 @@ const sendRequest = async (req, res) => {
     if (team.Member_Count < 3) {
       //Save a new request to the database
       const request = new Requests({
-        For_Team: req.body.team_id,
-        Req_to: user._id,
-        Req_From: req.body.user_id,
+        team: req.body.team_id,
+        requested_to: user._id,
+        requested_from: req.body.user_id,
       });
-      request.save();
+      await request.save();
 
       //Add request to team
-      team.Pending_Requests.push(request._id);
+      team.Pending_Requests.push(request._id,
+        {
+          new: true,
+        });
       const updatedTeam = await Teams.findByIdAndUpdate(
-        req.body.team_id,
+        {_id:req.body.team_id},
         {
           Pending_Requests: team.Pending_Requests,
         },
@@ -66,7 +69,10 @@ const sendRequest = async (req, res) => {
       );
 
       //Add request to user
-      user.Pending_Requests.push(request._id);
+      user.Pending_Requests.push(request._id,
+        {
+          new: true,
+        });
       await Users.findByIdAndUpdate(user._id, {
         Pending_Requests: user.Pending_Requests,
       });
@@ -91,43 +97,53 @@ const sendRequest = async (req, res) => {
 const acceptRequest = async (req, res) => {
   try {
     const request = await Requests.findById(req.body.requestId);
-    if (!request) {
-      res.status(404).json({
-        message: "Request not found",
-      });
-      return;
+    if(!request) {
+        res.status(404).json({
+            message: 'Request not found'
+        });
+        return;
     }
     await Requests.findByIdAndDelete(req.body.requestId);
-
-    const team = await Teams.findById(request.For_Team._id);
-    team.Members.push(request.Req_to._id);
+    
+    const team = await Teams.findById(request.team._id);
+    team.Members.push(request.requested_to._id);
     await Teams.findByIdAndUpdate(team._id, {
-      Members: team.Members,
-      Member_Count: team.Member_Count + 1,
+        Members: team.Members,
+        Member_Count: team.Member_Count + 1
     });
-
-    const user = await Users.findById(request.Req_to._id);
-    user.Teams.push(request.For_Team._id);
-    const updatedUser = await Users.findByIdAndUpdate(
-      user._id,
-      {
-        Teams: user.Teams,
-      },
-      {
-        new: true,
-      }
-    );
+     await Users.updateOne( 
+        { _id: request.requested_to._id}, 
+        { $pull: { Pending_Requests: request._id} },{
+          new: true,
+        } 
+      )
+    
+    if(team.Members.length === 3) {
+        team.Pending_Requests.forEach(async (request) => {
+            await Requests.findByIdAndDelete(request._id);
+        })
+    }
+    
+    const user = await Users.findById(request.requested_to._id);
+    user.Teams.push(request.team._id);
+    const updatedUser = await Users.findByIdAndUpdate(user._id, {
+        Teams: user.Teams
+    }, {
+        new: true
+    })
 
     res.json({
-      message: "Accepted Request",
-      updatedUser,
+        message: 'Accepted Request',
+        updatedUser
     });
-  } catch (err) {
+}
+catch(err) {
     console.log(err);
     res.json({
-      message: "Error",
-    });
-  }
+        message: "Error"
+    })
+}
+
 };
 
 module.exports = { deleteRequest, sendRequest, acceptRequest, getRequest };
