@@ -1,4 +1,4 @@
-const Events = require("../models/Events");
+const Event = require("../models/Events");
 const Users = require("../models/Users");
 
 //sending info about a particular event "/leaderboard/:name"

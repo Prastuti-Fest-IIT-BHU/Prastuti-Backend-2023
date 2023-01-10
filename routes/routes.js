@@ -32,8 +32,9 @@ Router.route('/events').get(getAllEvents);//all events
 Router.route('/events/:id').get(getEvent);//particular event
 
 
-// getting leaderboard of particular event
-Router.route('/leaderboard/:event').get(getLeaderboard);
+// getting leaderboard 
+Router.route('/leaderboard').get(getLeaderboard);
+Router.route('/leaderboard/:event').get(getEventLeaderboard); //get leaderboad of a particular event.
 
 // get score of all teams and individual person
 Router.route('/score').get(solo_score);//solo
