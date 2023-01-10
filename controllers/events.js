@@ -2,9 +2,11 @@ const EventModel = require("../models/Events");
 
 //sending info about all the events registered by user
 const getAllEvents = async (req, res) => {
-  const events = await EventModel.find({});
-
-  res.status(200).json({ events });
+ try{ const events = await EventModel.find({});
+  res.status(200).json({ events });}
+  catch(error){
+    res.status(200).json({message:"error while getting data" });
+  }
 };
 
 //sending info about a particular event registered by user
