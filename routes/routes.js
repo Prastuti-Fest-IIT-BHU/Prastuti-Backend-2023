@@ -37,8 +37,8 @@ Router.route('/leaderboard').get(getLeaderboard);
 Router.route('/leaderboard/:event').get(getEventLeaderboard); //get leaderboad of a particular event.
 
 // get score of all teams and individual person
-Router.route('/score').get(solo_score);//solo
-Router.route('/score/:team').get(score_team);//team
+Router.route('/soloScore').get(solo_score);//solo
+Router.route('/teamScore').get(score_team);//team
 
 // getting all requests of a user
 Router.route('/request/:id').get(getRequest);

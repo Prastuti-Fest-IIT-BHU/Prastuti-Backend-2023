@@ -17,7 +17,7 @@ const solo_score = (req, res) => {
     return;
   }
 
-  if (event.Team_Event) {
+  if (event.team_event) {
     res.json({
       status: "Fail",
       message: "This is a team event",
@@ -68,7 +68,7 @@ const score_team = async (req, res) => {
     return;
   }
 
-  if (!event.Team_Event) {
+  if (!event.team_event) {
     res.json({
       status: "Fail",
       message: "This is an individual event",
@@ -76,7 +76,7 @@ const score_team = async (req, res) => {
     return;
   }
 
-  const check = event.Teams.find((x) => x.team._id.equals(team._id));
+  const check = event.teams.find((x) => x.team._id.equals(team._id));
   if (!check) {
     res.json({
       status: "Fail",
@@ -91,8 +91,8 @@ const score_team = async (req, res) => {
     curUser.save();
   });
 
-  let team_present = event.Teams.find((x) => x.team._id.equals(team._id));
-  team_present.Score += score;
+  let team_present = event.teams.find((x) => x.team._id.equals(team._id));
+  team_present.score += score;
   event.save();
 
   res.json({

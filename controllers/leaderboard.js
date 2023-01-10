@@ -7,12 +7,13 @@ const getEventLeaderboard = async (req, res) => {
   const event = await Event.findOne({ Name: eventName });
 
   if (!event.team_event) {
-    let data = event.Participants.map((user) => {
+    let data = event.Participants.map(async(user) => {
+      const curUser = await Users.findById({_id: user.participant});
       return {
-        Name: user.participant.Name,
-        College: user.participant.College,
+        Name: curUser.Name,
+        College: curUser.College,
         Score: user.Score,
-        ProfileImg: user.participant.Profile_Photo,
+        ProfileImg: curUser.Profile_Photo,
       };
     });
     data.sort((a, b) => b.Score - a.Score);
@@ -41,7 +42,7 @@ const getEventLeaderboard = async (req, res) => {
 const getLeaderboard = async (req, res) => {
   const users = await Users.find({})
     .sort("-Total_Score")
-    .select("-College -Phone -Pending_Requests -_id -__v -Teams");
+    .select("-Phone -Pending_Requests -_id -__v -Teams");
 
   let data = users.map((user) => {
     return {
