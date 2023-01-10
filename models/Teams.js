@@ -40,10 +40,10 @@ TeamSchema.pre("save",function(next){
 })
 
 TeamSchema.pre(/^find/,function(next){
-    this.populate({
-        path : 'Events_Participated ',
-        select : '-Teams -Participants -__v'
-    });
+    // this.populate({
+    //     path : 'Events_Participated ',
+    //     select : '-Teams -Participants -__v'
+    // });
     this.populate({
         path : 'Members',
         select : '-Teams -Pending_Requests -__v -Events_Participated -Phone -Total_Score'
