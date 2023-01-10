@@ -16,7 +16,7 @@ Router.route('/login').get().post(loginUser);
 // making a user and getting all users
 Router.route('/user/:id').get(getUser).put(editUser);//individual
 Router.route('/user').get(getAllUsers);//all users
-Router.route('user/:EventName').get(getEvent);//all users in event
+Router.route('/user/:EventName').get(getEvent);//all users in event
 
 // teams posting and getting
 Router.route('/teams').post(createTeam);//post
