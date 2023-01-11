@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
      Name : {
             type : String,
             required : [true, "Name is required"],
-            trim : true
+            trim : true,
      },
      email_id : {
         type : String,
@@ -20,6 +20,9 @@ const UserSchema = new mongoose.Schema({
             },
             message : 'Please enter a valid email'
         }
+     },
+     is_form_filled:{
+      type: Boolean,
      },
      College : {
         type : String
