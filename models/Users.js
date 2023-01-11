@@ -47,7 +47,10 @@ const UserSchema = new mongoose.Schema({
      App_id: {
       type:String,
       unique : true,
-      required: true
+      required: false
+     },
+     isFormFilled:{
+      type:Boolean
      },
      Teams : [{
         type : mongoose.Schema.Types.ObjectId,

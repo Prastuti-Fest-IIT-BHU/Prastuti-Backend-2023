@@ -95,7 +95,7 @@ const register_team = async (req, res) => {
   if (!event.Team_Event) {
     res.status(403).json({
       status: "Fail",
-      message: "Not a team event",
+      message: "A team cannot be registered in a solo_event",
     });
     return;
   }

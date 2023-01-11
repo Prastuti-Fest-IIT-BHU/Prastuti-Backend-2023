@@ -29,8 +29,9 @@ const loginUser = async (req, res) =>{
               Name: payload.name,
               email_id: payload.email,
               Profile_Photo: payload.picture,
+              isFormFilled:false,
               Teams: [],
-              App_id:tokenId,
+              App_id:" ",
               Pending_Requests: [],
               Events_Participated: [],
               is_form_filled:false

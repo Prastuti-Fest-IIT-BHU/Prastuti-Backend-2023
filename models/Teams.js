@@ -41,7 +41,7 @@ TeamSchema.pre("save",function(next){
 
 TeamSchema.pre(/^find/,function(next){
     this.populate({
-        path : 'Events_Participated ',
+        path : 'Events_Participated',
         select : '-Teams -Participants -__v'
     });
     this.populate({
