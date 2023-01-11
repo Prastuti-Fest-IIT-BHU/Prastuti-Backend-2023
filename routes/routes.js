@@ -23,8 +23,8 @@ Router.route('/teams').post(createTeam);//post
 Router.route('/teams/:id').get(getTeam);//get
 
 // registering for event
-Router.route('/register/:EventName/:id').post(register_solo);//individual
-Router.route('/register/:EventName/:team').post(register_team);//team
+Router.route('/soloRegistration').post(register_solo);//individual
+Router.route('/teamRegistration').post(register_team);//team
 
 // getting all events and particular event
 
@@ -32,14 +32,16 @@ Router.route('/events').get(getAllEvents);//all events
 Router.route('/events/:id').get(getEvent);//particular event
 
 
-// getting leaderboard of particular event
-Router.route('/leaderboard/:event').get(getLeaderboard);
+// getting leaderboard 
+Router.route('/leaderboard').get(getLeaderboard);
+Router.route('/leaderboard/:event').get(getEventLeaderboard); //get leaderboad of a particular event.
 
 // get score of all teams and individual person
-Router.route('/score').get(solo_score);//solo
-Router.route('/score/:team').get(score_team);//team
+Router.route('/soloScore').get(solo_score);//solo
+Router.route('/teamScore').get(score_team);//team
 
 // getting all requests of a user
+Router.route('/request').post(sendRequest).delete(deleteRequest);
+Router.route('/request/accept').post(acceptRequest);
 Router.route('/request/:id').get(getRequest);
-
 module.exports = Router;

@@ -28,8 +28,8 @@ const sendRequest = async (req, res) => {
     }
 
     const request = await Requests.findOne({
-      For_Team: req.body.team_id,
-      Req_to: user._id,
+      team: req.body.team_id,
+      requested_to: user._id,
     });
     if (request) {
       res.json({
@@ -47,29 +47,31 @@ const sendRequest = async (req, res) => {
     if (team.Member_Count < 3) {
       //Save a new request to the database
       const request = new Requests({
-        For_Team: req.body.team_id,
-        Req_to: user._id,
-        Req_From: req.body.user_id,
+        team: req.body.team_id,
+        requested_to: user._id,
+        requested_from: req.body.user_id,
       });
-      request.save();
+      await request.save();
 
       //Add request to team
-      team.Pending_Requests.push(request._id);
-      const updatedTeam = await Teams.findByIdAndUpdate(
-        req.body.team_id,
-        {
-          Pending_Requests: team.Pending_Requests,
-        },
+
+      const updatedTeam = await Teams.updateOne(
+        { _id: req.body.team_id },
+        { $push: { Pending_Requests: request._id } },
         {
           new: true,
         }
       );
 
       //Add request to user
-      user.Pending_Requests.push(request._id);
-      await Users.findByIdAndUpdate(user._id, {
-        Pending_Requests: user.Pending_Requests,
-      });
+
+      await Users.updateOne(
+        { _id: user._id },
+        { $push: { Pending_Requests: request._id } },
+        {
+          new: true,
+        }
+      );
 
       res.json({
         message: "Request sent succesfully",
@@ -99,15 +101,36 @@ const acceptRequest = async (req, res) => {
     }
     await Requests.findByIdAndDelete(req.body.requestId);
 
-    const team = await Teams.findById(request.For_Team._id);
-    team.Members.push(request.Req_to._id);
+    const team = await Teams.findById(request.team._id);
+    team.Members.push(request.requested_to._id);
     await Teams.findByIdAndUpdate(team._id, {
       Members: team.Members,
       Member_Count: team.Member_Count + 1,
     });
 
-    const user = await Users.findById(request.Req_to._id);
-    user.Teams.push(request.For_Team._id);
+    await Teams.updateOne(
+      { _id: request.team._id },
+      { $pull: { Pending_Requests: request._id } },
+      {
+        new: true,
+      }
+    );
+    await Users.updateOne(
+      { _id: request.requested_to._id },
+      { $pull: { Pending_Requests: request._id } },
+      {
+        new: true,
+      }
+    );
+
+    if (team.Members.length === 3) {
+      team.Pending_Requests.forEach(async (request) => {
+        await Requests.findByIdAndDelete(request._id);
+      });
+    }
+
+    const user = await Users.findById(request.requested_to._id);
+    user.Teams.push(request.team._id);
     const updatedUser = await Users.findByIdAndUpdate(
       user._id,
       {

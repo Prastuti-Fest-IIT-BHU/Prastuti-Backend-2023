@@ -11,7 +11,7 @@ const getAllEvents = async (req, res) => {
 
 //sending info about a particular event registered by user
 const getEvent = async (req, res) => {
-  const event = await EventModel.find(req.params.id);
+  const event = await EventModel.findById({_id:req.params.id});
 
   res.status(200).json({ event });
 };
