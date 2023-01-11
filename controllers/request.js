@@ -10,10 +10,37 @@ const getRequest = async (req, res) => {
 };
 
 const deleteRequest = async (req, res) => {
+  const request = await Requests.findById(req.body.requestId);
+  if (!request) {
+    res.status(404).json({
+      message: "Request not found",
+    });
+    return;
+  }
   await Requests.findByIdAndDelete(req.body.requestId);
-  res.status(200).json({
-    message: "Request Deleted",
-  });
+
+  //deleting from team ->Pending requests
+  const team = await Teams.findById(request.team._id);
+    await Teams.updateOne(
+      { _id: request.team._id },
+      { $pull: { Pending_Requests: request._id } },
+      {
+        new: true,
+      }
+    );
+
+    await Users.updateOne(
+      { _id: request.requested_to._id },
+      { $pull: { Pending_Requests: request._id } },
+      {
+        new: true,
+      }
+    );
+
+    res.status(200).json({
+      message:"Request Deleted Successfully!!"
+    })
+
 };
 
 const sendRequest = async (req, res) => {

@@ -185,3 +185,4 @@ const register_team = async (req, res) => {
 };
 
 module.exports = { register_solo, register_team };
+ 

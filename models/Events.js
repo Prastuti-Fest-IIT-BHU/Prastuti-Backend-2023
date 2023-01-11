@@ -26,10 +26,10 @@ const EventSchema = new mongoose.Schema({
   Description: {
     type: String,
   },
-  rules: {
+  problemStatement: {
     type: String,
   },
-  rewards: {
+  resourses: {
     type: String,
   },
   player_ids:[
