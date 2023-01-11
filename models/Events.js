@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 // imported user and team schema
 const User = require("./Users");
 const Team = require("./Teams");
+const { type } = require("express/lib/response");
 
 // declaring event schema
 const EventSchema = new mongoose.Schema({
@@ -42,6 +43,11 @@ const EventSchema = new mongoose.Schema({
         required: false,
       }
       ,
+      player_ids:[
+       {
+        type: String
+       }
+      ],
       title: {
         type: String,
         required: true,
