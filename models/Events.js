@@ -32,6 +32,11 @@ const EventSchema = new mongoose.Schema({
   rewards: {
     type: String,
   },
+  player_ids:[
+    {
+     type: String
+    }
+   ],
   timeline: [
     {
       Date: {
@@ -43,11 +48,6 @@ const EventSchema = new mongoose.Schema({
         required: false,
       }
       ,
-      player_ids:[
-       {
-        type: String
-       }
-      ],
       title: {
         type: String,
         required: true,

@@ -31,7 +31,7 @@ const loginUser = async (req, res) =>{
               Profile_Photo: payload.picture,
               isFormFilled:false,
               Teams: [],
-              App_id:" ",
+              App_id:"jsdfhj",
               Pending_Requests: [],
               Events_Participated: []
           }
@@ -49,7 +49,7 @@ const loginUser = async (req, res) =>{
         isNew
     })
 }).catch(err => 
-  {  console.log("error bro");
+  {  console.log(err.message);
     res.json({
     message: err.meassage,
     error: err

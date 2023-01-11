@@ -43,8 +43,6 @@ const UserSchema = new mongoose.Schema({
      },
      App_id: {
       type:String,
-      unique : true,
-      required: false
      },
      isFormFilled:{
       type:Boolean
@@ -70,15 +68,15 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre(/^find/,function(next){
     this.populate({
         path : 'Teams',
-        select : '-Pending_Requests -Events_Participated -__v'
+        select : '-__v'
     });
     this.populate({
        path : 'Pending_Requests',
-       select : '-__v -Req_to' 
+       select : '-__v' 
     });
     this.populate({
         path : 'Events_Participated',
-        select : '-Participants -Teams -Team_Event -__v'
+        select : '-__v'
     })
     next();
 });
