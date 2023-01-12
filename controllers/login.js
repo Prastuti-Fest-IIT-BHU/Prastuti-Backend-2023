@@ -18,11 +18,12 @@ const loginUser = async (req, res) =>{
           audience: process.env.GOOGLE_CLIENT_ID
       })
       const payload = ticket.getPayload();
+      //check if payload is not empty:
       console.log(payload);
       const curUser = await Users.findOne({
           email_id: payload.email
       })
-
+      console.log(curUser)
       if(!curUser) {
           isNew = true;
           let newUser = {
@@ -31,7 +32,6 @@ const loginUser = async (req, res) =>{
               Profile_Photo: payload.picture,
               isFormFilled:false,
               Teams: [],
-              App_id:" ",
               Pending_Requests: [],
               Events_Participated: [],
               is_form_filled:false
@@ -50,7 +50,7 @@ const loginUser = async (req, res) =>{
         isNew
     })
 }).catch(err => 
-  {  console.log("error bro");
+  {  console.log(err.message);
     res.json({
     message: err.meassage,
     error: err

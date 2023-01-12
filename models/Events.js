@@ -26,12 +26,17 @@ const EventSchema = new mongoose.Schema({
   Description: {
     type: String,
   },
-  rules: {
+  problemStatement: {
     type: String,
   },
-  rewards: {
+  resourses: {
     type: String,
   },
+  player_ids:[
+    {
+     type: String
+    }
+   ],
   timeline: [
     {
       Date: {
@@ -43,11 +48,6 @@ const EventSchema = new mongoose.Schema({
         required: false,
       }
       ,
-      player_ids:[
-       {
-        type: String
-       }
-      ],
       title: {
         type: String,
         required: true,

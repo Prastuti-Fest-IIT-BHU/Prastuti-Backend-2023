@@ -6,7 +6,7 @@ const register_solo = async (req, res) => {
   const user = await Users.findById(req.body.user_id);
   const event = await Events.findById(req.body.event_id);
 
-  if (event.Team_Event) {
+  if (event.team_event) {
     res.json({
       status: "Fail",
       message: "Cannot register as an individual in team event",
@@ -42,7 +42,7 @@ const register_solo = async (req, res) => {
   });
 
   //Increment no. of participants
-  event.Participants_Count = event.Participants_Count + 1;
+  event.no_of_participants = event.no_of_participants + 1;
 
   //updating in db
   const updatedUser = await Users.findByIdAndUpdate(
@@ -57,7 +57,7 @@ const register_solo = async (req, res) => {
     req.body.event_id,
     {
       Participants: event.Participants,
-      Participants_Count: event.Participants_Count,
+      no_of_participants: event.no_of_participants,
     },
     { new: true }
   );
@@ -92,8 +92,8 @@ const register_team = async (req, res) => {
   }
 
   // Check if Team Event
-  if (!event.Team_Event) {
-    res.status(403).json({
+  if (!event.team_event) {
+    res.status(404).json({
       status: "Fail",
       message: "A team cannot be registered in a solo_event",
     });
@@ -137,11 +137,11 @@ const register_team = async (req, res) => {
   }
 
   //Add a team in Event
-  event.Teams.push({
+  event.teams.push({
     team: team._id,
     Score: 0,
   });
-  event.Participants_Count = event.Participants_Count + team.Members.length;
+  event.no_of_participants = event.no_of_participants + team.Members.length;
 
   //Add Event in all Users
   await team.Members.forEach(async (member) => {
@@ -171,8 +171,8 @@ const register_team = async (req, res) => {
   const updatedEvent = await Events.findByIdAndUpdate(
     req.body.event_id,
     {
-      Teams: event.Teams,
-      Participants_Count: event.Participants_Count,
+      teams: event.teams,
+      no_of_participants: event.no_of_participants,
     },
     { new: true }
   );
@@ -185,3 +185,4 @@ const register_team = async (req, res) => {
 };
 
 module.exports = { register_solo, register_team };
+ 

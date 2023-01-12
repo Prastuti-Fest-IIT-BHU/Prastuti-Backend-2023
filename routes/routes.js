@@ -8,6 +8,7 @@ const { loginUser } = require("../controllers/login");
 const { register_solo, register_team } = require("../controllers/register");
 const { deleteRequest, sendRequest, acceptRequest, getRequest } = require("../controllers/request");
 const { solo_score,score_team } = require("../controllers/score")
+const {notifyAllUsers, notifyUsersOfEvent} = require("../controllers/push_notification")
 // need to get all the functions from controller
 
 // login and signup
@@ -17,6 +18,10 @@ Router.route('/login').get().post(loginUser);
 Router.route('/user/:id').get(getUser).put(editUser);//individual
 Router.route('/user').get(getAllUsers);//all users
 Router.route('/user/:EventName').get(getEvent);//all users in event
+
+//notificationServices:
+Router.route("/sendNotification").post(notifyAllUsers)
+Router.route("/sendNotificationForEvent").post(notifyUsersOfEvent)
 
 // teams posting and getting
 Router.route('/teams').post(createTeam);//post
