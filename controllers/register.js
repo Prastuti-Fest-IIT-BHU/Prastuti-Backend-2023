@@ -43,6 +43,15 @@ const register_solo = async (req, res) => {
 
   //Increment no. of participants
   event.no_of_participants = event.no_of_participants + 1;
+  
+  const updatedEvent = await Events.findByIdAndUpdate(
+    req.body.event_id,
+    {
+      Participants: event.Participants,
+      no_of_participants: event.no_of_participants,
+    },
+    { new: true }
+  );
 
   //updating in db
   const updatedUser = await Users.findByIdAndUpdate(
@@ -53,14 +62,6 @@ const register_solo = async (req, res) => {
     { new: true }
   );
 
-  const updatedEvent = await Events.findByIdAndUpdate(
-    req.body.event_id,
-    {
-      Participants: event.Participants,
-      no_of_participants: event.no_of_participants,
-    },
-    { new: true }
-  );
 
   res.status(200).json({
     message: "Registered Succeessfully",
