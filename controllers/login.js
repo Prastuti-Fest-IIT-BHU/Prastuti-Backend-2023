@@ -44,14 +44,14 @@ const loginUser = async (req, res) =>{
 
   
   verify().then((data) => {
-    res.json({
+    res.status(200).json({
         message: 'Success',
         user,
         isNew
     })
 }).catch(err => 
   {  console.log(err.message);
-    res.json({
+    res.status(404).json({
     message: err.meassage,
     error: err
 })}) 

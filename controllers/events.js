@@ -5,7 +5,7 @@ const getAllEvents = async (req, res) => {
  try{ const events = await EventModel.find({});
   res.status(200).json({ events });}
   catch(error){
-    res.status(200).json({message:"error while getting data" });
+    res.status(404).json({message:"error while getting data" });
   }
 };
 
