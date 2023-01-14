@@ -144,19 +144,35 @@ const register_team = async (req, res) => {
   });
   event.no_of_participants = event.no_of_participants + team.Members.length;
 
+  let getUpdatedUser = null;
+
   //Add Event in all Users
   await team.Members.forEach(async (member) => {
     let registeredUser = await Users.findById(member._id);
     registeredUser.Events_Participated.push(event._id);
-    await Users.findByIdAndUpdate(
-      registeredUser._id,
-      {
-        Events_Participated: registeredUser.Events_Participated,
-      },
-      {
-        new: true,
-      }
-    );
+
+    if(registeredUser._id === req.body.user_id){
+      getUpdatedUser = await Users.findByIdAndUpdate(
+        registeredUser._id,
+        {
+          Events_Participated: registeredUser.Events_Participated,
+        },
+        {
+          new: true,
+        }
+      );
+    }else{
+      await Users.findByIdAndUpdate(
+        registeredUser._id,
+        {
+          Events_Participated: registeredUser.Events_Participated,
+        },
+        {
+          new: true,
+        }
+      );
+    }
+    
   });
 
   //Add Event in Team
@@ -182,7 +198,7 @@ const register_team = async (req, res) => {
 
   res.status(200).json({
     message: "Team registered successfully",
-    updatedUser,
+    getUpdatedUser,
   });
 };
 
