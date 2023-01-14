@@ -57,7 +57,7 @@ const eventUser = async (req, res) => {
         });
     }
     let data;
-    if(event.Team_Event) data = event.Teams;
+    if(event.team_event) data = event.teams;
     else data = event.Participants;
     res.status(200).json({
         data
