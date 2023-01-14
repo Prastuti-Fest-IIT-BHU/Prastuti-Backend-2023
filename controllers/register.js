@@ -27,7 +27,7 @@ const register_solo = async (req, res) => {
   );
   if (eventFound) {
     res.json({
-      message: "User already registered for this event",
+      message: "You already registered for this event",
     });
     return;
   }

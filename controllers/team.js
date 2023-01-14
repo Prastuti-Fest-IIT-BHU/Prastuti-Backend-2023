@@ -6,9 +6,9 @@ const UserModel = require('../models/Users');
 // getting info about members of team
 const getTeamNames = async (req, res) => {
     const teams = await TeamModel.find({});
-    let teamNames = teams.map(team => team.slug);
+    // let teamNames = teams.map(team => team.slug);
     res.status(200).json({
-        teamNames
+        teams
     })
 }
 
