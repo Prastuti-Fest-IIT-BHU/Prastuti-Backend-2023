@@ -30,7 +30,7 @@ const getUser = async (req, res) =>{
     if (!user){
         res.status(404).send('User not found')
     }
-    res.json(user);
+    res.status(200).json(user);
 }
 
 // updating details of user
@@ -39,12 +39,15 @@ const editUser = async (req, res) =>{
         const user = await UserModel.findByIdAndUpdate(req.params.id , req.body, {
             new: true
         });
-        res.json(user);
+        res.status(200).json(user);
     }
     catch(err) {
-        console.log(err);
+        res.status(404).json({
+            message: 'Event not found'
+        });
     }
 }
+
 
 // checking if user participated in any event 
 const eventUser = async (req, res) => {

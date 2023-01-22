@@ -19,7 +19,7 @@ const solo_score = async(req, res) => {
 }
 
   if(event.team_event) {
-    res.json({
+    res.status(404).json({
         status: 'Fail',
         message: 'This is a team event'
     })
@@ -29,7 +29,7 @@ const solo_score = async(req, res) => {
   //checking if user has registered for event or not
   const check = event.Participants.find(x => x.participant._id.equals(user._id));
     if(!check) {
-        res.json({
+        res.status(404).json({
             status: 'Fail',
             message: 'User not registered for this event'
         })
@@ -45,12 +45,15 @@ const solo_score = async(req, res) => {
     participant_present.Score += score;
     event.save();
 
-    res.json({
+    res.status(200).json({
         message: 'Score updated'
     })
     
   } catch (error) {
-    console.log(error);
+    res.status(404).json({
+      status: "Fail",
+      message: error.message,
+    });
   }
   
 };
@@ -71,7 +74,7 @@ const score_team = async (req, res) => {
   }
 
   if (!event.team_event) {
-    res.json({
+    res.status(404).json({
       status: "Fail",
       message: "This is an individual event",
     });
@@ -80,7 +83,7 @@ const score_team = async (req, res) => {
 
   const check = event.teams.find((x) => x.team._id.equals(team._id));
   if (!check) {
-    res.json({
+    res.status(404).json({
       status: "Fail",
       message: "Team not registered for this event",
     });
@@ -98,7 +101,7 @@ const score_team = async (req, res) => {
   team_present.score += score;
   event.save();
 
-  res.json({
+  res.status(200).json({
     message: "Score updated for team",
   });
 };

@@ -18,7 +18,7 @@ const EventSchema = new mongoose.Schema({
         "Codigo",
         "Hackoverflow",
         "Recognizance",
-        "simulim",
+        "Simulim",
       ],
       message: "Event name is not valid",
     },

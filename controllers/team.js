@@ -27,7 +27,7 @@ const createTeam = async (req, res) => {
         });
         const team = await TeamModel.findOne({slug: curSlug});
         if(team) {
-            res.json({
+            res.status(404).json({
                 message: 'Team with this name already exists'
             })
             return;
@@ -56,7 +56,7 @@ const createTeam = async (req, res) => {
     }
     catch(err) {
         console.log(err.message);
-        res.json({
+        res.status(404).json({
             message:err.message 
         })
     }
@@ -72,7 +72,7 @@ const getTeam = async (req, res) => {
     }
     catch(err) {
         console.log(err);
-        res.json({
+        res.status(404).json({
             message: 'Error'
         })
     }
