@@ -136,10 +136,10 @@ const acceptRequest = async (req, res) => {
     const recepient = await Users.findById(request.requested_to._id);
 
     var canAcceptRequest = true;
-    for(var eventId in recepient.Events_Participated){
-      console.log("EventId is - ",eventId._id);
-      console.log("not EventId is - ",eventId);
-      if(team.Events_Participated.includes(eventId._id)){
+    for(var i=0;i<recepient.Events_Participated.length;i++){
+      console.log("EventId is - ",recepient.Events_Participated[i]._id);
+      console.log("not EventId is - ",recepient.Events_Participated[i]);
+      if(team.Events_Participated.includes(recepient.Events_Participated[i])){
         canAcceptRequest = false;
         break;
       }
