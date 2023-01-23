@@ -137,6 +137,8 @@ const acceptRequest = async (req, res) => {
 
     var canAcceptRequest = true;
     for(var eventId in recepient.Events_Participated){
+      console.log("EventId is - ",eventId._id);
+      console.log("not EventId is - ",eventId);
       if(team.Events_Participated.includes(eventId._id)){
         canAcceptRequest = false;
         break;
@@ -178,7 +180,10 @@ const acceptRequest = async (req, res) => {
     }
 
     const user = await Users.findById(request.requested_to._id);
+    console.log("Team participated in ",team.Events_Participated);
     for(var eventId in team.Events_Participated){
+      console.log("adding eventId to User ", eventId._id);
+      console.log("not adding eventId to User ", eventId);
       user.Events_Participated.push(eventId._id);
     }
     user.Teams.push(request.team._id);
@@ -187,6 +192,7 @@ const acceptRequest = async (req, res) => {
       user._id,
       {
         Teams: user.Teams,
+        Events_Participated: user.Events_Participated
       },
       {
         new: true,
