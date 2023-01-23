@@ -90,5 +90,17 @@ const EventSchema = new mongoose.Schema({
   ],
 });
 
+EventSchema.pre(/^find/, async function(next) {
+  this.populate({
+      path: 'Participants.participant',
+      select: '-Teams -Pending_Requests -Events_Participated -__v -Total_Score'
+  })
+  this.populate({
+      path: 'Teams.team',
+      select: '-Events_Participated -Pending_Requests -__v'
+  })
+  next();
+})
+
 // exporting event schema
 module.exports = Event = mongoose.model("event", EventSchema);

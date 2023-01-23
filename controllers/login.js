@@ -15,7 +15,7 @@ const loginUser = async (req, res) =>{
   async function verify() {
       const ticket = await client.verifyIdToken({
           idToken: tokenId,
-          audience: process.env.GOOGLE_CLIENT_ID
+          requiredaudience: process.env.GOOGLE_CLIENT_ID
       })
       const payload = ticket.getPayload();
       //check if payload is not empty:
