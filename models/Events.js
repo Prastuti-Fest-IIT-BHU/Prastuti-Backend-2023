@@ -32,6 +32,9 @@ const EventSchema = new mongoose.Schema({
   resourses: {
     type: String,
   },
+  whatsappLink:{
+    type:String,
+  },
   player_ids:[
     {
      type: String
