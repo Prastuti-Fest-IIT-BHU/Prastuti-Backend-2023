@@ -133,6 +133,23 @@ const acceptRequest = async (req, res) => {
     await Requests.findByIdAndDelete(req.body.requestId);
 
     const team = await Teams.findById(request.team._id);
+    const recepient = await Users.findById(request.requested_to._id);
+
+    var canAcceptRequest = true;
+    for(var eventId in recepient.Events_Participated){
+      if(team.Events_Participated.includes(eventId._id)){
+        canAcceptRequest = false;
+        break;
+      }
+    }
+    if(!canAcceptRequest){
+      res.status(404).json({
+        message:"Cannot accept the request!!"
+      })
+      return ;
+    }
+
+
     team.Members.push(request.requested_to._id);
     await Teams.findByIdAndUpdate(team._id, {
       Members: team.Members,
@@ -161,7 +178,11 @@ const acceptRequest = async (req, res) => {
     }
 
     const user = await Users.findById(request.requested_to._id);
+    for(var eventId in team.Events_Participated){
+      user.Events_Participated.push(eventId._id);
+    }
     user.Teams.push(request.team._id);
+    
     const updatedUser = await Users.findByIdAndUpdate(
       user._id,
       {
