@@ -40,7 +40,7 @@ const deleteRequest = async (req, res) => {
     const updatedUser = await Users.findByIdAndUpdate(request.requested_to._id);
 
     res.status(200).json({
-      message:"Request Deleted Successfully!!",
+      message:"Request Deleted Successfully!",
       updatedUser
     })
 
@@ -52,7 +52,7 @@ const sendRequest = async (req, res) => {
     const team = await Teams.findOne({ _id: req.body.team_id });
     if (!team || !user) {
       res.status(404).json({
-        message: "Team or user not found.",
+        message: "Team or User not found.",
       });
       return;
     }
@@ -63,13 +63,13 @@ const sendRequest = async (req, res) => {
     });
     if (request) {
       res.status(404).json({
-        message: "Request has been already sent",
+        message: "Request already sent.",
       });
       return;
     }
     if (team.Members.find((member) => member._id.equals(user._id))) {
       res.status(404).json({
-        message: "Given user is already added to the team",
+        message: "Given user is already added to the team.",
       });
       return;
     }
@@ -105,12 +105,12 @@ const sendRequest = async (req, res) => {
       );
 
       res.status(200).json({
-        message: "Request sent succesfully",
+        message: "Request sent succesfully!",
         updatedTeam,
       });
     } else {
       res.status(404).json({
-        message: "Team already full",
+        message: "Team already full.",
       });
     }
   } catch (err) {
@@ -173,7 +173,7 @@ const acceptRequest = async (req, res) => {
     );
 
     res.status(200).json({
-      message: "Accepted Request",
+      message: "Request Accepted!",
       updatedUser,
     });
   } catch (err) {
