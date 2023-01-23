@@ -181,10 +181,10 @@ const acceptRequest = async (req, res) => {
 
     const user = await Users.findById(request.requested_to._id);
     console.log("Team participated in ",team.Events_Participated);
-    for(var eventId in team.Events_Participated){
-      console.log("adding eventId to User ", eventId._id);
-      console.log("not adding eventId to User ", eventId);
-      user.Events_Participated.push(eventId._id);
+    for(var i=0;i<team.Events_Participated.length;i++){
+      console.log("adding eventId to User ", team.Events_Participated[i]._id);
+      console.log("not adding eventId to User ", team.Events_Participated[i]);
+      user.Events_Participated.push(team.Events_Participated[i]);
     }
     user.Teams.push(request.team._id);
     
