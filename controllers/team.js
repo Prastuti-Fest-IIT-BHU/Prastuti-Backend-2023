@@ -6,9 +6,9 @@ const UserModel = require('../models/Users');
 // getting info about members of team
 const getTeamNames = async (req, res) => {
     const teams = await TeamModel.find({});
-    let teamNames = teams.map(team => team.slug);
+    // let teamNames = teams.map(team => team.slug);
     res.status(200).json({
-        teamNames
+        teams
     })
 }
 
@@ -27,7 +27,7 @@ const createTeam = async (req, res) => {
         });
         const team = await TeamModel.findOne({slug: curSlug});
         if(team) {
-            res.json({
+            res.status(404).json({
                 message: 'Team with this name already exists'
             })
             return;
@@ -56,7 +56,7 @@ const createTeam = async (req, res) => {
     }
     catch(err) {
         console.log(err.message);
-        res.json({
+        res.status(404).json({
             message:err.message 
         })
     }
@@ -72,7 +72,7 @@ const getTeam = async (req, res) => {
     }
     catch(err) {
         console.log(err);
-        res.json({
+        res.status(404).json({
             message: 'Error'
         })
     }

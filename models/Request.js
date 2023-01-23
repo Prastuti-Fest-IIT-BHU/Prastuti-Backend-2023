@@ -3,6 +3,9 @@ const User = require('./Users');
 const Team = require('./Teams');
 
 const RequestSchema = new mongoose.Schema({
+  teamName:{
+    type: String
+  },
   team: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Team',

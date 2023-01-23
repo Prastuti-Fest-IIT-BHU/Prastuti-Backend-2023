@@ -26,6 +26,7 @@ Router.route("/sendNotificationForEvent").post(notifyUsersOfEvent)
 // teams posting and getting
 Router.route('/teams').post(createTeam);//post
 Router.route('/teams/:id').get(getTeam);//get
+Router.route('/teams').get(getTeamNames);//getting info of teams
 
 // registering for event
 Router.route('/soloRegistration').post(register_solo);//individual
@@ -50,3 +51,4 @@ Router.route('/request').post(sendRequest).delete(deleteRequest);
 Router.route('/request/accept').post(acceptRequest);
 Router.route('/request/:id').get(getRequest);
 module.exports = Router;
+//comment

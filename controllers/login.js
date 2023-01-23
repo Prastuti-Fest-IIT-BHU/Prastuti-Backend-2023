@@ -15,7 +15,7 @@ const loginUser = async (req, res) =>{
   async function verify() {
       const ticket = await client.verifyIdToken({
           idToken: tokenId,
-          requiredaudience: process.env.GOOGLE_CLIENT_ID
+          requiredAudience: process.env.GOOGLE_CLIENT_ID
       })
       const payload = ticket.getPayload();
       //check if payload is not empty:
@@ -44,14 +44,14 @@ const loginUser = async (req, res) =>{
 
   
   verify().then((data) => {
-    res.json({
+    res.status(200).json({
         message: 'Success',
         user,
         isNew
     })
 }).catch(err => 
   {  console.log(err.message);
-    res.json({
+    res.status(404).json({
     message: err.meassage,
     error: err
 })}) 

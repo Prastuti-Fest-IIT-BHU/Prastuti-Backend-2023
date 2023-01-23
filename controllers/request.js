@@ -1,6 +1,7 @@
 const Requests = require("../models/Request");
 const Users = require("../models/Users");
 const Teams = require("../models/Teams");
+const { findByIdAndUpdate } = require("../models/Users");
 
 const getRequest = async (req, res) => {
   const request = await Requests.findById(req.params.id);
@@ -29,16 +30,18 @@ const deleteRequest = async (req, res) => {
       }
     );
 
-    await Users.updateOne(
-      { _id: request.requested_to._id },
+   await Users.updateOne(
+       {_id: request.requested_to._id} ,
       { $pull: { Pending_Requests: request._id } },
       {
         new: true,
       }
     );
+    const updatedUser = await Users.findByIdAndUpdate(request.requested_to._id);
 
     res.status(200).json({
-      message:"Request Deleted Successfully!!"
+      message:"Request Deleted Successfully!!",
+      updatedUser
     })
 
 };
@@ -59,13 +62,13 @@ const sendRequest = async (req, res) => {
       requested_to: user._id,
     });
     if (request) {
-      res.json({
+      res.status(404).json({
         message: "Request has been already sent",
       });
       return;
     }
     if (team.Members.find((member) => member._id.equals(user._id))) {
-      res.json({
+      res.status(404).json({
         message: "Given user is already added to the team",
       });
       return;
@@ -74,6 +77,7 @@ const sendRequest = async (req, res) => {
     if (team.Member_Count < 3) {
       //Save a new request to the database
       const request = new Requests({
+        teamName: team.Team_Name, 
         team: req.body.team_id,
         requested_to: user._id,
         requested_from: req.body.user_id,
@@ -100,18 +104,18 @@ const sendRequest = async (req, res) => {
         }
       );
 
-      res.json({
+      res.status(200).json({
         message: "Request sent succesfully",
         updatedTeam,
       });
     } else {
-      res.json({
+      res.status(404).json({
         message: "Team already full",
       });
     }
   } catch (err) {
     console.log(err);
-    res.json({
+    res.status(404).json({
       message: "Error",
     });
   }
@@ -168,13 +172,13 @@ const acceptRequest = async (req, res) => {
       }
     );
 
-    res.json({
+    res.status(200).json({
       message: "Accepted Request",
       updatedUser,
     });
   } catch (err) {
     console.log(err);
-    res.json({
+    res.status(404).json({
       message: "Error",
     });
   }
