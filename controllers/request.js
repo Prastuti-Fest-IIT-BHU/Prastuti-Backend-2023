@@ -130,7 +130,7 @@ const acceptRequest = async (req, res) => {
       });
       return;
     }
-    await Requests.findByIdAndDelete(req.body.requestId);
+    
 
     const team = await Teams.findById(request.team._id);
     const recepient = await Users.findById(request.requested_to._id);
@@ -146,11 +146,11 @@ const acceptRequest = async (req, res) => {
     }
     if(!canAcceptRequest){
       res.status(404).json({
-        message:"Cannot accept the request!!"
+        message:"Already registered in event"
       })
       return ;
     }
-
+    await Requests.findByIdAndDelete(req.body.requestId);
 
     team.Members.push(request.requested_to._id);
     await Teams.findByIdAndUpdate(team._id, {
