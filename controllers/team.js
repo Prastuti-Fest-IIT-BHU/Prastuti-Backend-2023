@@ -18,7 +18,7 @@ const createTeam = async (req, res) => {
         let user = await UserModel.findById(req.body.userID);
         if(!user) {
             res.status(404).json({
-                message: 'User not found'
+                message: 'User not found.'
             })
             return;
         }
@@ -28,7 +28,7 @@ const createTeam = async (req, res) => {
         const team = await TeamModel.findOne({slug: curSlug});
         if(team) {
             res.status(404).json({
-                message: 'Team with this name already exists'
+                message: 'Team with this name already exists.'
             })
             return;
         }
@@ -47,7 +47,7 @@ const createTeam = async (req, res) => {
         })
     
         res.status(200).json({
-            message: 'New Team Created',
+            message: 'New Team Created.',
             data: {
                 newTeam,
                 updatedUser
