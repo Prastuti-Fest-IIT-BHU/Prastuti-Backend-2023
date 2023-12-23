@@ -18,7 +18,7 @@ Router.route('/login').get().post(loginUser);
 Router.route('/user/:id').get(getUser).put(editUser);//individual
 Router.route('/user').get(getAllUsers);//all users
 Router.route('/user/:EventName').get(getEvent);//all users in event
-
+//nothing
 //notificationServices:
 Router.route("/sendNotification").post(notifyAllUsers)
 Router.route("/sendNotificationForEvent").post(notifyUsersOfEvent)
